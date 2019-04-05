@@ -2,11 +2,29 @@
 include("../protection.php");
 include_once("../../connection.php");
 
+$time = time()-3600;
+
+if ($_POST) {
+
+  $stards = time() - 3600; 
+  $ends = time() - 3600; 
+  $ends += $_POST["ends"];
+  $user_id = $_SESSION["user_id"];
+  $keycode = $_SESSION["keycode"];
+  
+  $sql = "CALL createSchedule(?, ?, ?, ?);";
+  $sth = $conn -> prepare($sql);
+  $sth -> bindParam(1, $user_id, PDO::PARAM_INT);
+  $sth -> bindParam(2, $keycode, PDO::PARAM_INT);
+  $sth -> bindParam(3, $stards, PDO::PARAM_INT);
+  $sth -> bindParam(4, $ends, PDO::PARAM_INT);
+
+  $sth -> execute();
+}
+
 if ($_POST) {
 
 	$user_email = $_POST['user_email'];
-	$user_pass = $_POST['user_pass'];
-	$user_pass2 = $_POST['user_pass2'];
 	$user_level = $_POST['user_level'];
 	$keycode_id = $_SESSION["keycode_id"];
 
@@ -111,11 +129,26 @@ if ($_POST) {
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
-        <div class="col-md-3 mr-auto">
-          <a href="../" class="btn btn-light btn-block">
-            <i class="fa fa-arrow-left"></i> Back To Dashboard
+				<div class="col-md-2 mr-auto">
+          <a href="index.php" class="btn btn-light btn-block">
+            <i class="fa fa-arrow-left"></i> Back
           </a>
         </div>
+				<div class="col-md-2">
+					<?php
+					$sql = "SELECT * FROM schedules INNER JOIN  relation ON schedules.relation_id = relation.relation_id
+					where schedule_start <= :now and schedule_end >= :now having relation.keycode_key = :keycode;";
+					$stmt = $conn -> prepare($sql);
+					$stmt -> bindValue(':keycode', $_SESSION["keycode"], PDO::PARAM_INT);
+					$stmt -> bindValue(':now', $time, PDO::PARAM_INT);
+					$stmt -> execute();
+					$row = $stmt->fetch();
+					?>
+          <a href="#" class="btn btn-<?php if($row){echo 'success';} else {echo 'danger';} ?> btn-block" data-toggle="modal" data-target="#turnon">
+            <i class="fa fa-toggle-<?php if($row){echo 'on';} else {echo 'off';} ?>"></i> <?php if($row){echo 'On';} else {echo 'Off';} ?>
+          </a>
+				</div>
+
       </div>
     </div>
   </section>
@@ -167,14 +200,6 @@ if ($_POST) {
                   <label for="email">Email:</label>
                   <input type="text" class="form-control" name="user_email">
                 </div>
-								<div class="form-group">
-									<label for="email">Password:</label>
-									<input type="text" class="form-control" name="user_pass">
-								</div>
-								<div class="form-group">
-									<label for="email">Repeat Password:</label>
-									<input type="text" class="form-control" name="user_pass2">
-								</div>
 								<div class="form-group">
 									<label for="email">Level:</label>
 										<div class="input-group">

@@ -13,41 +13,39 @@ if ($_POST) {
 
   if (!empty($email) || !empty($pass)) {
 
-    $sql = "SELECT * FROM users WHERE user_email = :email LIMIT 1";
+    $sql = "SELECT users.user_id, users.user_name, users.user_email, users.user_pass, relation.relation_level as user_level, relation.keycode_key FROM users 
+            INNER JOIN  relation ON relation.user_id = users.user_id WHERE users.user_email = :email LIMIT 1;";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':email', $email, PDO::PARAM_STR);
     $stmt -> execute();
-    $result = $stmt->fetchAll();
+    $row = $stmt->fetch();
 
-    if (!empty($result)) {
+    if (!empty($row)) {
 
-      foreach($result as $row) {
+      if(password_verify($pass, $row['user_pass'])){
+        session_start();
 
-        if(password_verify($pass,$row['user_pass'])){
-          session_start();
-  
-          $_SESSION["user_id"] = $row['user_id'];
-          $_SESSION["user_name"] = $row['user_name'];
-          $_SESSION["user_email"] = $row['user_email'];
-          $_SESSION["user_level"] = $row['user_level'];
-          $_SESSION["keycode_id"] = $row['keycode_id'];
-          
-          header("Location: admin/");
+        $_SESSION["user_id"] = $row['user_id'];
+        $_SESSION["user_name"] = $row['user_name'];
+        $_SESSION["user_email"] = $row['user_email'];
+        $_SESSION["user_level"] = $row['user_level'];
+        $_SESSION["keycode"] = $row['keycode_key'];
+        $_SESSION["selected"] = false;
+        
+        header("Location: admin/");
 
-          echo $_SESSION["user_email"].'<br/>';
-  
-        }else{
+      }else{
 
-          $msg = "error";
-        }
+        $msg = "error";
       }
-
-    } else {
-
-      $msg = "error";
     }
+
+  } else {
+
+    $msg = "error";
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,10 +53,11 @@ if ($_POST) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>hotBerry</title>
+  <title>HotBerry</title>
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
@@ -86,8 +85,8 @@ if ($_POST) {
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
-        <div class="col-md-3 mr-auto">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#register">Register</button>
+        <div class="col-md-3">
+        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#register">Register</button>
         </div>
       </div>
     </div>
@@ -244,7 +243,7 @@ if ($_POST) {
   <br/><br/>
 
   <!-- REGISTER MODAL -->
-  <div class="modal" id="register">
+  <div class="modal fade" id="register" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -291,5 +290,12 @@ if ($_POST) {
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <!--
+  <script>
+    $(document).ready(function() {
+      $('#register').modal('show');
+    });
+  </script>
+  -->
 </body>
 </html>

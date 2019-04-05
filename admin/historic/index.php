@@ -50,10 +50,10 @@ if ($_POST) {
               <a href="../schedules/" class="nav-link">Schedules</a>
             </li>
             <li class="nav-item px-2">
-              <a href="../historic/" class="nav-link">Historic</a>
+              <a href="index.php" class="nav-link active">Historic</a>
             </li>
             <li class="nav-item px-2">
-              <a href="index.php" class="nav-link active">Users</a>
+              <a href="../users/" class="nav-link">Users</a>
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
@@ -91,7 +91,7 @@ if ($_POST) {
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <h1><i class="fa fa-users"></i> Users</h1>
+            <h1><i class="fa fa-history"></i> Historic</h1>
           </div>
         </div>
       </div>
@@ -115,34 +115,27 @@ if ($_POST) {
             <i class="fa fa-toggle-<?php if($row){echo 'on';} else {echo 'off';} ?>"></i> <?php if($row){echo 'On';} else {echo 'Off';} ?>
             </a>
           </div>
-          <div class="col-md-2">
-            <a href="add.php" class="btn btn-primary btn-block">
-              <i class="fa fa-plus"></i> Add User
-            </a>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- USER TABLE -->
-    <section id="users">
+    <!-- HISTORIC TABLE -->
+    <section id="historic">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4>All Users</h4>
+                <h4>Schedule's Historic</h4>
               </div>
               <?php
-              $sql = "SELECT users.user_id, users.user_name AS name, 
-              users.user_email AS email, 
-              relation.relation_level AS level, 
-              users.user_status AS status, 
-              users.user_deleted AS deleted FROM users
-              INNER JOIN relation ON users.user_id = relation.user_id
-              WHERE relation.keycode_key = :keycode;";
+              $sql = "SELECT relation.relation_id, users.user_id, schedules.schedule_id, users.user_name AS name, users.user_email AS email, schedule_start, schedule_end  FROM schedules
+              INNER JOIN relation ON schedules.relation_id = relation.relation_id
+              INNER JOIN users ON relation.user_id = users.user_id
+              WHERE relation.keycode_key = :keycode and schedules.schedule_end < :now ORDER BY schedules.schedule_end;";
               $stmt = $conn -> prepare($sql);
               $stmt -> bindValue(':keycode', $_SESSION["keycode"], PDO::PARAM_STR);
+              $stmt -> bindValue(':now', $time, PDO::PARAM_INT);
               $stmt -> execute();
               $result = $stmt->fetchAll();
               ?>
@@ -151,62 +144,21 @@ if ($_POST) {
                   <tr>
                     <th>Name</th>
                     <th>Login</th>
-                    <th>Status</th>       
-                    <th>Delete</th>
+                    <th>Starts</th>
+                    <th>Ends</th>
+                    <th>Duration</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php 
-                  foreach ($result as $row) { 
-                    if ($row['deleted'] == 0) {
-                      if ($row['level'] == 1) { ?>
-                        <tr>
-                          <td ><?php echo  $row['name']; ?></td>
-                          <td ><?php echo  $row['email']; ?></td>
-                          <td >
-                            <a href="#" class="btn alert-success btn-block">
-                              <i class="fa fa-check"></i> Enable
-                            </a>
-                          </td>
-                          <td>
-                            <a href="#" class="btn alert-danger btn-block">
-                              <i class="fa fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                      <?php } else { ?>
-                        <tr>
-                          <td >
-                            <a href="user.php?gb=<?= $row['user_id'] ?>">
-                              <?php echo  $row['name']; ?>
-                            </a>
-                          </td>
-                          <td >
-                            <a href="user.php?gb=<?= $row['user_id'] ?>">
-                              <?php echo  $row['email']; ?>
-                            </a>
-                          </td>
-                          <td >
-                            <?php if ($row['status'] == 0) { ?>
-                            <a href="enable.php?bf=<?= $row['user_id'] ?>" class="btn btn-danger btn-block">
-                              <i class="fa fa-check"></i> Disabled
-                            </a>
-                            <?php } else { ?>
-                              <a href="disable.php?bf=<?= $row['user_id'] ?>" class="btn btn-success btn-block">
-                              <i class="fa fa-check"></i> Enabled
-                              </a>
-                            <?php } ?>
-                          </td>
-                          <td>
-                            <a href="delete.php?bf=<?= $row['user_id'] ?>" class="btn btn-danger btn-block">
-                              <i class="fa fa-trash"></i> Delete
-                            </a>
-                          </td>
-                        </tr>
-                      <?php 
-                      }
-                    }
-                  } ?>
+                <?php foreach ($result as $row) { ?>
+                  <tr>
+                    <td><?php echo  $row['name']; ?></td>
+                    <td><?php echo  $row['email']; ?></td>
+                    <td><?php echo(date("d/m/Y H:i:s", $row['schedule_start'])); ?></td>
+                    <td><?php echo(date("d/m/Y H:i:s", $row['schedule_end'])); ?></td>
+                    <td><?php echo(date(" H:i:s",($row['schedule_end'] - $row['schedule_start'] - 3600))); ?></td>
+                  </tr>
+                  <?php } ?>
                 </tbody>
               </table>
             </div>

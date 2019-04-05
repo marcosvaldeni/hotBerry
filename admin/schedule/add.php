@@ -9,12 +9,14 @@ if ($_POST) {
 	$starts = strtotime($_POST['daytime']);
 	$ends = $starts + $_POST['time'];
 	$user_id = $_SESSION["user_id"];
-	$keycode_id = $_SESSION["keycode_id"];
+	$keycode = $_SESSION["keycode"];
 
-	$sql = "select * from schedule where schedule_start <= :start and schedule_end >= :start or schedule_start <= :end and schedule_end >= :end;";
+	$sql = "select * from schedules INNER JOIN relation ON schedules.relation_id = relation.relation_id
+	where schedules.schedule_start <= :start and schedules.schedule_end >= :start or schedules.schedule_start <= :end and schedules.schedule_end >= :end having relation.keycode_key = :keycode;";
 	$stmt = $conn -> prepare($sql);
-	$stmt -> bindValue(':start', $starts, PDO::PARAM_STR);
-	$stmt -> bindValue(':end', $ends, PDO::PARAM_STR);
+	$stmt -> bindValue(':start', $starts, PDO::PARAM_INT);
+	$stmt -> bindValue(':end', $ends, PDO::PARAM_INT);
+	$stmt -> bindValue(':keycode', $keycode, PDO::PARAM_STR);
 	$stmt -> execute();
 	$row = $stmt->fetch();
 
@@ -23,13 +25,13 @@ if ($_POST) {
 		$schedule = 'Scheduled for '.date("H:i:s", $row['schedule_start']).' to '.date("H:i:s", $row['schedule_end']).' on '.date(" l jS F Y", $row['schedule_end']);
 	} else {
 
-		$sql = "INSERT INTO schedule (schedule_start, schedule_end, user_id, keycode_id) VALUES (?, ?, ?, ?);";
+		$sql = "CALL createSchedule(?, ?, ?, ?);";
 		$sth = $conn -> prepare($sql);
-		$sth -> bindParam(1, $starts, PDO::PARAM_STR);
-		$sth -> bindParam(2, $ends, PDO::PARAM_STR);
-		$sth -> bindParam(3, $user_id, PDO::PARAM_INT);
-		$sth -> bindParam(4, $keycode_id, PDO::PARAM_INT);
-		
+		$sth -> bindParam(1, $user_id, PDO::PARAM_INT);
+		$sth -> bindParam(2, $keycode, PDO::PARAM_INT);
+		$sth -> bindParam(3, $starts, PDO::PARAM_INT);
+		$sth -> bindParam(4, $ends, PDO::PARAM_INT);
+
 		$sth -> execute();
 	}
 }
