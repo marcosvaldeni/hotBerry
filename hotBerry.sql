@@ -1,11 +1,12 @@
-DROP DATABASE if exists hotBerry;
-CREATE DATABASE hotBerry;
+DROP DATABASE if exists hotberry;
+CREATE DATABASE hotberry;
 
-USE hotBerry;
+USE hotberry;
 
 DROP TABLE if exists keycodes;
 CREATE TABLE keycodes(
 keycode_key VARCHAR(6) NOT NULL UNIQUE,
+keycode_comment VARCHAR(45),
 keycode_used BOOLEAN NOT NULL DEFAULT 0,
 PRIMARY KEY(keycode_key)
 );
@@ -25,7 +26,6 @@ DROP TABLE if exists relation;
 CREATE TABLE relation(
 relation_id INT AUTO_INCREMENT NOT NULL,
 relation_level INT(1) NOT NULL DEFAULT 2,
-relation_comment VARCHAR(45),
 keycode_key VARCHAR(6) NOT NULL,
 user_id INT NOT NULL,
 PRIMARY KEY(relation_id),
@@ -55,16 +55,12 @@ INSERT INTO keycodes (keycode_key) VALUES
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS createUser//
-CREATE PROCEDURE  createUser(IN admin_id INT, IN email VARCHAR(45), IN pass VARCHAR(64))
+CREATE PROCEDURE  createUser(IN email VARCHAR(45), IN pass VARCHAR(64), IN keycode VARCHAR(6))
 BEGIN
-	DECLARE keycode VARCHAR(6);
     DECLARE id INT;
 	
     START TRANSACTION; 
-    
-		SELECT keycode_key FROM users INNER JOIN  relation ON relation.user_id = users.user_id
-		WHERE users.user_id = admin_id INTO keycode;
-        
+          
 	   	INSERT INTO users (user_email, user_pass) VALUES 
 		(email, pass);
         
@@ -77,7 +73,6 @@ BEGIN
         
 END //
 DELIMITER ;
-
 
 
 DELIMITER //
@@ -151,20 +146,14 @@ DELIMITER ;
 
 /* ################################## <SIMULATION DATA> #################################### */
 CALL createAdmin("8AF11A","caroldanvers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"8AF11A"
-                and relation.relation_level = 1), "davidbonner@email.com", "$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"8AF11A"
-                and relation.relation_level = 1), "hankpym@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"8AF11A"
-                and relation.relation_level = 1), "emmafrost@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
+CALL createUser("davidbonner@email.com", "$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
+CALL createUser("hankpym@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
+CALL createUser("emmafrost@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 
 CALL createAdmin("SMDB0Y","stevenrogers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
+INSERT INTO relation (relation_level, keycode_key, user_id) VALUES (1, "5JCOO4",5);
+
+/*
 CALL createUser((select relation.user_id from relation
 				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
 				"SMDB0Y"
@@ -204,11 +193,11 @@ CALL createUser((select relation.user_id from relation
 				"00ZVXV"
                 and relation.relation_level = 1),"cassiesandsmark@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
                 
-INSERT INTO relation (relation_level, relation_comment, keycode_key, user_id) VALUES 
-(1, "country house", "5JCOO4",5);
+INSERT INTO relation (relation_level, keycode_key, user_id) VALUES 
+(1, "5JCOO4",5);
 /* ################################## </SIMULATION DATA> #################################### */
 
-
+/*
 # Select to show the users, giving the option to the admin add one of them #########
 SELECT relation.user_id, keycode_key, user_email FROM users 
 INNER JOIN  relation ON relation.user_id = users.user_id
@@ -258,17 +247,18 @@ SELECT UNIX_TIMESTAMP(NOW());
 
 SELECT FROM_UNIXTIME((SELECT UNIX_TIMESTAMP(NOW())), "%d/%m/%Y %H:%i") as MyTime;
 
-SELECT users.user_id FROM users
-INNER JOIN relation ON users.user_id = relation.user_id
-WHERE users.user_id = 10 AND relation.keycode_key = "00ZVXV" AND relation.relation_level = 2
-where schedule_start <= :now and schedule_end >= :now having relation.keycode_key = :keycode;
+
+SELECT schedules.schedule_id FROM schedules
+INNER JOIN relation ON schedules.relation_id = relation.relation_id
+where schedules.schedule_start <= (SELECT UNIX_TIMESTAMP(NOW()-3600)) and schedules.schedule_end >= (SELECT UNIX_TIMESTAMP(NOW()-3600))
+and relation.keycode_key = "00ZVXV";
 
 
-SELECT FROM_UNIXTIME((schedules.schedule_start+3600), "%H:%i") as start, FROM_UNIXTIME((schedules.schedule_end+3600), "%H:%i") as end FROM schedules
-INNER JOIN relation ON schedules.relation_id = relation.relation_id ;
-where schedules.schedule_start <= (SELECT UNIX_TIMESTAMP(NOW())) and schedules.schedule_end >= (SELECT UNIX_TIMESTAMP(NOW()));
+SELECT count(*) FROM relation
+INNER JOIN users ON relation.user_id = users.user_id
+WHERE users.user_id = 5;
+*/
 
-having relation.keycode_key = "00ZVXV";
-
-
-
+# <temp>
+SELECT * FROM relation WHERE user_id = 5
+# </temp>

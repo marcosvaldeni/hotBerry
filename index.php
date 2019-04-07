@@ -1,5 +1,6 @@
 <?php
-include("connection.php");
+require_once("hb/util/connection.php"); 
+require_once("hb/util/init.php");
 $msg = "";
 
 if (isset($_GET['r'])) {
@@ -31,8 +32,18 @@ if ($_POST) {
         $_SESSION["user_level"] = $row['user_level'];
         $_SESSION["keycode"] = $row['keycode_key'];
         $_SESSION["selected"] = false;
+
+        $sql = "SELECT count(*) as devices FROM relation
+        INNER JOIN users ON relation.user_id = users.user_id
+        WHERE users.user_id = :id;";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> bindValue(':id', $_SESSION["user_id"], PDO::PARAM_INT);
+        $stmt -> execute();
+        $devices = $stmt->fetch();
+
+        $_SESSION["devices"] = $devices['devices'];
         
-        header("Location: admin/");
+        header("Location: hb/");
 
       }else{
 
@@ -50,14 +61,7 @@ if ($_POST) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>HotBerry</title>
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/style.css">
-
+  <?php include("hb/util/header.php"); ?> 
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
@@ -93,7 +97,6 @@ if ($_POST) {
   </section>
 
   <!-- LOGIN -->
-  <br/><br/>
   <?php if ($msg == "ie") {?>
   <section id="info">
     <div class="container">
@@ -230,6 +233,7 @@ if ($_POST) {
                 <div class="form-group">
                   <br/>
                   <input type="password" name="pass" class="form-control" placeholder="Password">
+                  <small class="form-text text-muted"><a href="">Forgot Password</a></small>
                 </div>
                 <br/>
                 <input type="submit" class="btn btn-primary btn-block" value="Login">
@@ -277,19 +281,7 @@ if ($_POST) {
     </div>
   </div>
 
-  <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
-    <div class="conatiner">
-      <div class="row">
-        <div class="col">
-          <p class="lead text-center">Copyright © 2019 HotBerry</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/jquery.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <?php include("hb/util/footer.php"); ?> 
   <!--
   <script>
     $(document).ready(function() {
