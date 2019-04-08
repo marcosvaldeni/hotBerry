@@ -53,6 +53,32 @@ INSERT INTO keycodes (keycode_key) VALUES
 
 /* ################################## </DATA> #################################### */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS createUser//
 CREATE PROCEDURE  createUser(IN email VARCHAR(45), IN pass VARCHAR(64), IN keycode VARCHAR(6))
@@ -103,7 +129,6 @@ END //
 DELIMITER ;
 
 
-
 DELIMITER //
 DROP PROCEDURE IF EXISTS createSchedule//
 CREATE PROCEDURE  createSchedule(IN userId INT, IN keycode VARCHAR(6), IN startSchedule INT, IN endSchedule INT)
@@ -118,7 +143,6 @@ BEGIN
        
 END //
 DELIMITER ;
-
 
 
 DELIMITER //
@@ -152,49 +176,18 @@ CALL createUser("emmafrost@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/
 
 CALL createAdmin("SMDB0Y","stevenrogers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
 INSERT INTO relation (relation_level, keycode_key, user_id) VALUES (1, "5JCOO4",5);
-
-/*
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"SMDB0Y"
-                and relation.relation_level = 1),"annamarie@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"SMDB0Y"
-                and relation.relation_level = 1),"mollyfitzgerald@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"SMDB0Y"
-                and relation.relation_level = 1),"williamnasland@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
+CALL createUser("annamarie@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
+CALL createUser("mollyfitzgerald@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
+CALL createUser("williamnasland@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
 
 CALL createAdmin("00ZVXV","joshuasanders@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"00ZVXV"
-                and relation.relation_level = 1),"jaygarrick@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"00ZVXV"
-                and relation.relation_level = 1),"troystewart@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"00ZVXV"
-                and relation.relation_level = 1),"danieleaton@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"00ZVXV"
-                and relation.relation_level = 1),"samanthaparrington@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"00ZVXV"
-                and relation.relation_level = 1),"guygardner@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-CALL createUser((select relation.user_id from relation
-				INNER JOIN  users ON users.user_id = relation.user_id WHERE relation.keycode_key = 
-				"00ZVXV"
-                and relation.relation_level = 1),"cassiesandsmark@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa");
-                
-INSERT INTO relation (relation_level, keycode_key, user_id) VALUES 
-(1, "5JCOO4",5);
+CALL createUser("jaygarrick@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","00ZVXV");
+CALL createUser("troystewart@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","00ZVXV");
+CALL createUser("danieleaton@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","00ZVXV");
+CALL createUser("samanthaparrington@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","00ZVXV");
+CALL createUser("guygardner@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","00ZVXV");
+CALL createUser("cassiesandsmark@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","00ZVXV");
+               
 /* ################################## </SIMULATION DATA> #################################### */
 
 /*
@@ -260,5 +253,12 @@ WHERE users.user_id = 5;
 */
 
 # <temp>
-SELECT * FROM relation WHERE user_id = 5
+SELECT keycode_comment AS name, keycodes.keycode_key AS keycode FROM keycodes 
+INNER JOIN relation ON relation.keycode_key = keycodes.keycode_key
+WHERE user_id = 5 and keycodes.keycode_key = 'SMDB0Y';
+# </temp>
+
+# <temp>
+SELECT * from users;
+
 # </temp>

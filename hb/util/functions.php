@@ -18,6 +18,26 @@
     
   }
 
+  function checkError($int) {
+
+    if ($int == 1) {
+      $err[0] = "danger";
+      $err[1] = "Email already registered!";
+    } elseif ($int == 2) {
+      $err[0] = "success";
+      $err[1] = "Successful registration!";
+    } elseif ($int == 3) {
+      $err[0] = "danger";
+      $err[1] = "Invalid Email!";
+    } else {
+      $err[0] = "warning";
+      $err[1] = "Error 500";
+    }
+    
+    return $err;
+
+  }
+
   function emailUser($email, $pass) {
     /*
 

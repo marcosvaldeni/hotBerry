@@ -1,4 +1,5 @@
 <?php
+	require_once("../util/protection.php");
 	require_once("../util/connection.php");
 
   if (isset($_GET["jm"])) {
@@ -40,9 +41,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<?php include("../util/header.php"); ?>
-
+  <?php include("../util/header.php"); ?> 
 </head>
 <body>
 
@@ -128,6 +127,9 @@
   </section>
 
   <?php include("../util/boilerModal.php"); ?>
+
+
+
   <?php include("../util/footer.php"); ?>
 </body>
 </html>

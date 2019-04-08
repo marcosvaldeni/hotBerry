@@ -1,19 +1,8 @@
 <?php
-	/*
-	$db_host = "162.241.203.95";
-	$db_name = "horyco63_hotberry";
 
-	$db_user = "horyco63_admin";
-	$db_pass = "Cjn4&qpuKfmi";
-
-$HOST = 'localhost';
-  $USER = 'root';
-  $PASS = '';
-  $DB = 'hotberry';
-*/
-  $HOST = 'localhost';
-  $USER = 'root';
-  $PASS = '';
+  $HOST = '160.153.128.24';
+  $USER = 'admin_kfdsona';
+  $PASS = 'Cjn4&qpuKfmi';
   $DB = 'hotberry';
 
 try{

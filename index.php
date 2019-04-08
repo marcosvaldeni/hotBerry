@@ -255,7 +255,7 @@ if ($_POST) {
           <button class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <form id="modal-form" action="register.php" method="POST">
+          <form id="modal-form" action="hb/util/register.php" method="POST">
           <div class="form-group">
               <label for="email">eMail:</label>
               <input type="text" placeholder="eMail" class="form-control" name="email">

@@ -29,7 +29,7 @@
 			$sql = "CALL createSchedule(?, ?, ?, ?);";
 			$sth = $conn -> prepare($sql);
 			$sth -> bindParam(1, $user_id, PDO::PARAM_INT);
-			$sth -> bindParam(2, $keycode, PDO::PARAM_INT);
+			$sth -> bindParam(2, $keycode, PDO::PARAM_STR);
 			$sth -> bindParam(3, $starts, PDO::PARAM_INT);
 			$sth -> bindParam(4, $ends, PDO::PARAM_INT);
 
@@ -89,7 +89,7 @@
 	</section>
 	<?php } ?>
 
-  <section id="profile">
+  <section id="datetime">
     <div class="container">
       <div class="row">
         <div class="col-md-6 m-auto">
@@ -101,11 +101,11 @@
             <div class="card-body">
               <form action="" method="POST">
                 <div class="form-group">
-									<label for="email">Date and Time:</label>
+									<label for="datetime">Date and Time:</label>
 									<input type="datetime-local" class="form-control"  name="daytime">
                 </div>
 								<div class="form-group">
-									<label for="email">Duration</label>
+									<label for="duration">Duration</label>
 									<select name="time" class="form-control">
 										<option value="900">15 minutes</option>
 										<option value="1800">30 minutes</option>
@@ -125,7 +125,7 @@
     </div>
   </section>
 
-	<?php include("util/boilerModal.php"); ?>
+	<?php include("../util/boilerModal.php"); ?>
 
 	<?php include("../util/footer.php"); ?>  
 

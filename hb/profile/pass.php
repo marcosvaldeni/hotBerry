@@ -66,7 +66,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3 mr-auto">
-					<a href="index.php" class="btn btn-light btn-block">
+					<a href=<?= $BASE."/hb" ?> class="btn btn-light btn-block">
 						<i class="fa fa-arrow-left"></i> Back To Dashboard
 					</a>
 				</div>

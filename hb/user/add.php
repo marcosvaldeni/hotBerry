@@ -2,16 +2,17 @@
 	include("../util/protection.php");
 	require_once("../util/connection.php");
 	require_once("../util/init.php");
+	require_once("../util/functions.php");
 
-	$msg = "";
-	$act = "";
+	 $err;
+	
 
   if (isset($_POST['turnOn'])) {
     boilerDirect($_POST["ends"], $_SESSION["user_id"], $_SESSION["keycode"], $conn);
 	}
 	
 	if(isset($_GET['r'])) {
-		$act = $_GET['r'];
+		$err = checkError($_GET['r']);
 	}
 ?>
 <!DOCTYPE html>
@@ -46,39 +47,24 @@
     </div>
   </section>
 
-  <!-- BOOK REGISTER -->
-	<?php if (isset($_GET['r'])) {?>
+
+	<?php if (isset($err)) {?>
 	<section id="info">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12 m-auto">
-					<div class="alert alert-success alert-dismissible fade show">
+				<div class="col-md-6 m-auto">
+					<div class="alert alert-<?= $err[0]?> alert-dismissible fade show">
 							<button class="close" data-dismiss="alert" type="button">
 									<span>&times;</span>
 							</button>
-							<strong>Successful registration!</strong>
+							<strong><?= $err[1]?></strong>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	<?php } ?>
-	<?php if (isset($msg)) { ?>
-	<section id="info">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 m-auto">
-					<div class="alert alert-danger alert-dismissible fade show">
-							<button class="close" data-dismiss="alert" type="button">
-									<span>&times;</span>
-							</button>
-							<strong><?php echo $msg; ?></strong>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<?php } ?>
+
   <section id="profile">
     <div class="container">
       <div class="row">

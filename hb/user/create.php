@@ -8,10 +8,19 @@
   $pass = mb_substr(password_hash($email,PASSWORD_DEFAULT), 0, 6);
   $keycode = $_SESSION["keycode"];
 
+  $sql = "SELECT COUNT(*) as number FROM users WHERE user_email = :email;";
+  $stmt = $conn -> prepare($sql);
+  $stmt -> bindValue(':email', $email, PDO::PARAM_STR);
+  $stmt -> execute();
+  $row = $stmt->fetch();
 
   if ($email == "") {
-      $msg = "em";
-  }else{
+
+    header("Location: add.php?r=3");
+  }elseif ($row['number'] > 0) {
+
+    header("Location: add.php?r=1");
+  } else {
     
     $hashedPass = password_hash($pass,PASSWORD_DEFAULT);
 
@@ -22,11 +31,9 @@
     $sth -> bindParam(3, $keycode, PDO::PARAM_STR);
 
     $sth->execute();
-    $msg = "ok";
     //emailUser($email, $pass);
 
-    echo $msg;
-    header("Location: add.php?r=".$msg);
+    header("Location: add.php?r=2");
   }
 
 

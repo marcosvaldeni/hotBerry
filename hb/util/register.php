@@ -52,6 +52,6 @@
 
 
     $sth -> execute();
-    header("Location: index.php?r=ok");
+    header("Location: ".$BASE."/?r=ok");
   } 
 ?>

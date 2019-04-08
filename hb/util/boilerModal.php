@@ -16,7 +16,7 @@
           $row = $stmt->fetch();
           if ($row) { 
         ?>
-        <form id="modal-form" action="cancel.php" method="POST">
+        <form id="modal-form" action="" method="POST">
           <div class="form-group">
             <div class="alert alert-danger fade show">
               <strong>
@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-danger" type="submit">Cancel</button>
           </div>
         </form>
         <?php } else { ?>

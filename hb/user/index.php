@@ -134,6 +134,12 @@
 
   <?php include("../util/boilerModal.php"); ?>
 
+  <?php
+    for ($i=0; $i < (5-sizeof($result)); $i++) {
+      echo '</br></br>';
+    }
+  ?>
+
   <?php include("../util/footer.php"); ?>  
 
 </body>
