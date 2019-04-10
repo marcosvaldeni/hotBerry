@@ -8,10 +8,13 @@
       </div>
       <div class="modal-body">
         <?php
-          $sql = "select * from schedules where schedule_start <= :now and schedule_end >= :now;";
+          $sql = "SELECT * FROM schedules
+          INNER JOIN relation ON schedules.relation_id = relation.relation_id
+          where schedules.schedule_start <= :now and schedules.schedule_end >= :now
+          and relation.keycode_key = :keycode;";
           $stmt = $conn -> prepare($sql);
-          $stmt -> bindValue(':now', time(), PDO::PARAM_STR);
-          $stmt -> bindValue(':id', $_SESSION["user_id"], PDO::PARAM_STR);
+          $stmt -> bindValue(':keycode', $_SESSION["keycode"], PDO::PARAM_INT);
+          $stmt -> bindValue(':now', time(), PDO::PARAM_INT);
           $stmt -> execute();
           $row = $stmt->fetch();
           if ($row) { 
