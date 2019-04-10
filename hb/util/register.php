@@ -9,10 +9,11 @@
 
   $check = true;
   $keycode_id;
+  $err;
 
   if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     $check = false;
-    header("Location: ".$BASE."/index.php?r=ie");
+    $err = 3;
   }
 
   if ($check) {
@@ -25,20 +26,20 @@
 
     if ($row['checking'] != "ok") {
       $check = false;
-      header("Location: index.php?r=".$row['checking']);
+
+      $err = $row['checking'];
     }
   }
 
   if ($check == true && strlen($_POST['pass']) < 6) {
     $check = false;
-    header("Location: index.php?r=ps");
+    $err = 5;
   }
 
   if ($check == true && $_POST['pass'] != $_POST['pass2']) {
     $check = false;
-    header("Location: index.php?r=pm");
+    $err = 6;
   }
-
 
   if ($check) {
 
@@ -53,5 +54,7 @@
 
     $sth -> execute();
     header("Location: ".$BASE."/?r=8");
-  } 
+  } else {
+    header("Location: ".$BASE."/index.php?r=".$err);
+  }
 ?>

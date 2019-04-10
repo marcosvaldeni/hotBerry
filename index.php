@@ -1,6 +1,7 @@
 <?php
 require_once("hb/util/connection.php"); 
 require_once("hb/util/init.php");
+require_once("hb/util/functions.php");
 
 $err;
 
@@ -47,7 +48,6 @@ if ($_POST) {
         header("Location: hb/");
 
       }else{
-
         $err = checkError(9);
       }
     }
@@ -57,7 +57,7 @@ if ($_POST) {
     $err = checkError(9);
   }
 }
-
+echo "localhost";
 ?>
 <!DOCTYPE html>
 <html lang="en">

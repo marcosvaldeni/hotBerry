@@ -1,9 +1,16 @@
 <?php
 
+  $HOST = 'localhost';
+  $USER = 'root';
+  $PASS = '';
+  $DB = 'hotberry';
+
+  /*
   $HOST = '160.153.128.24';
   $USER = 'admin_kfdsona';
   $PASS = 'Cjn4&qpuKfmi';
   $DB = 'hotberry';
+  */
 
 try{
 	
