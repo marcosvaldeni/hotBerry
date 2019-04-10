@@ -54,31 +54,6 @@ INSERT INTO keycodes (keycode_key) VALUES
 /* ################################## </DATA> #################################### */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 DELIMITER //
 DROP PROCEDURE IF EXISTS createUser//
 CREATE PROCEDURE  createUser(IN email VARCHAR(45), IN pass VARCHAR(64), IN keycode VARCHAR(6))
@@ -147,22 +122,22 @@ DELIMITER ;
 
 DELIMITER //
 DROP FUNCTION IF EXISTS checkEmailAndKey//
-CREATE FUNCTION checkEmailAndKey(email VARCHAR(45), keycode VARCHAR(7)) RETURNS varchar(6) 
+CREATE FUNCTION checkEmailAndKey(email VARCHAR(45), keycode VARCHAR(7)) RETURNS VARCHAR(2) 
 BEGIN
-	declare cheking boolean;
+	DECLARE cheking BOOLEAN;
 	
 	IF (SELECT COUNT(*) FROM users WHERE user_email = email) != 0 THEN
     		# Email already registered! #
-	   return "er";
+	   RETURN "4";
 	ELSEIF (SELECT COUNT(*) FROM keycodes WHERE keycode_key = keycode) != 1 THEN
 			# Key is invalid! Key does not exist #
-	   return "ik";
+	   RETURN "7";
 	ELSEIF (SELECT keycode_used FROM keycodes WHERE keycode_key = keycode) = 1 THEN
 			# Key is invalid! Already used #
-	   return "ik";
+	   RETURN "7";
 	ELSE
 			# Valid key! #
-	   return "ok";
+	   RETURN "ok";
 	END IF;
 
 END//

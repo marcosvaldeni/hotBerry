@@ -1,10 +1,11 @@
 <?php
 require_once("hb/util/connection.php"); 
 require_once("hb/util/init.php");
-$msg = "";
 
-if (isset($_GET['r'])) {
-  $msg = $_GET['r'];
+$err;
+
+if(isset($_GET['r'])) {
+  $err = checkError($_GET['r']);
 }
 
 if ($_POST) {
@@ -47,13 +48,13 @@ if ($_POST) {
 
       }else{
 
-        $msg = "error";
+        $err = checkError(9);
       }
     }
 
   } else {
 
-    $msg = "error";
+    $err = checkError(9);
   }
 }
 
@@ -96,125 +97,22 @@ if ($_POST) {
     </div>
   </section>
 
-  <!-- LOGIN -->
-  <?php if ($msg == "ie") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-danger alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Invalid Email!</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
-
-  <?php if ($msg == "er") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-danger alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Email already registered!</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
-
-  <?php if ($msg == "ps") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-danger alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Password must have at least six characters!</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
-
-  <?php if ($msg == "mp") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-danger alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Passwords does not math!</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
-
-  <?php if ($msg == "ik") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-danger alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Key is invalid!</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
-
-  <?php if ($msg == "ok") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-success alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Congratulations You're Registered!</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
-
-  <?php if ($msg == "error") {?>
-  <section id="info">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-          <div class="alert alert-danger alert-dismissible fade show">
-              <button class="close" data-dismiss="alert" type="button">
-                  <span>&times;</span>
-              </button>
-              <strong>Invalid username or password.</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php } ?>
+  <?php if (isset($err)) {?>
+	<section id="info">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 m-auto">
+					<div class="alert alert-<?= $err[0]?> alert-dismissible fade show">
+							<button class="close" data-dismiss="alert" type="button">
+									<span>&times;</span>
+							</button>
+							<strong><?= $err[1]?></strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<?php } ?>
 
   <section id="login">
     <div class="container">

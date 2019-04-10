@@ -6,7 +6,6 @@
 
 	 $err;
 	
-
   if (isset($_POST['turnOn'])) {
     boilerDirect($_POST["ends"], $_SESSION["user_id"], $_SESSION["keycode"], $conn);
 	}

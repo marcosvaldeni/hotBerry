@@ -52,6 +52,6 @@
 
 
     $sth -> execute();
-    header("Location: ".$BASE."/?r=ok");
+    header("Location: ".$BASE."/?r=8");
   } 
 ?>

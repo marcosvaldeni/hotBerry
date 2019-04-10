@@ -1,4 +1,4 @@
 <?php
   date_default_timezone_set("Europe/Dublin");
-  $BASE = 'http://localhost/hotberry';
+  $BASE = 'http://hotberries.co';
 ?>
