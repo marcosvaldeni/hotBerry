@@ -57,7 +57,6 @@ if ($_POST) {
     $err = checkError(9);
   }
 }
-echo "localhost";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +79,7 @@ echo "localhost";
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1><i class="fa fa-user"></i> hotBerry</h1>
+          <h1><i class="fa fa-user"></i> H  otBerry</h1>
         </div>
       </div>
     </div>

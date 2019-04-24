@@ -1,5 +1,5 @@
 <?php
-	require_once("../util/protection.php");
+  include("../util/protectionLevel1.php");
 	require_once("../util/connection.php");
 
   if (isset($_GET["jm"])) {

@@ -1,5 +1,5 @@
  <?php
-  include("../util/protection.php");
+  include("../util/protectionLevel2.php");
   require_once("../util/connection.php");
   require_once("../util/init.php");
 
@@ -53,7 +53,7 @@
               WHERE relation.keycode_key = :keycode and schedules.schedule_end < :now ORDER BY schedules.schedule_end;";
               $stmt = $conn -> prepare($sql);
               $stmt -> bindValue(':keycode', $_SESSION["keycode"], PDO::PARAM_STR);
-              $stmt -> bindValue(':now', $time, PDO::PARAM_INT);
+              $stmt -> bindValue(':now', time(), PDO::PARAM_INT);
               $stmt -> execute();
               $result = $stmt->fetchAll();
             ?>

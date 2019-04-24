@@ -1,6 +1,6 @@
  <?php
 //  CONTROL AREA
-include("util/protection.php");
+include("util/protectionLevel2.php");
 include("util/connection.php");
 include("util/functions.php");
 

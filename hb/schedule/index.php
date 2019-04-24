@@ -1,6 +1,6 @@
  <!-- Schedule -->
  <?php
-  require_once("../util/protection.php");
+  include("../util/protectionLevel2.php");
   require_once("../util/connection.php");
   require_once("../util/init.php");
   require_once("../util/functions.php");
@@ -51,10 +51,10 @@
               $sql = "SELECT relation.relation_id, users.user_id, schedules.schedule_id, users.user_name AS name, users.user_email AS email, schedule_start, schedule_end  FROM schedules
               INNER JOIN relation ON schedules.relation_id = relation.relation_id
               INNER JOIN users ON relation.user_id = users.user_id
-              WHERE relation.keycode_key = :keycode and schedules.schedule_end < :now ORDER BY schedules.schedule_end;";
+              WHERE relation.keycode_key = :keycode and schedules.schedule_end > :now ORDER BY schedules.schedule_end;";
               $stmt = $conn -> prepare($sql);
               $stmt -> bindValue(':keycode', $_SESSION["keycode"], PDO::PARAM_STR);
-              $stmt -> bindValue(':now', $time, PDO::PARAM_INT);
+              $stmt -> bindValue(':now', time(), PDO::PARAM_INT);
               $stmt -> execute();
               $result = $stmt->fetchAll();
             ?>

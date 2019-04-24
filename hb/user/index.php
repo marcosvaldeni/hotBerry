@@ -1,5 +1,5 @@
  <?php
-	include("../util/protection.php");
+  include("../util/protectionLevel1.php");
 	require_once("../util/connection.php");
   require_once("../util/init.php");
   require_once("../util/functions.php");

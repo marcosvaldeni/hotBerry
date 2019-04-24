@@ -1,5 +1,5 @@
 <?php
-  include("../util/protection.php");
+  include("../util/protectionLevel1.php");
   include("../util/connection.php");
   include("../util/functions.php");
 
