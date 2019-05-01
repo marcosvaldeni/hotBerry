@@ -79,7 +79,7 @@ if ($_POST) {
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h1><i class="fa fa-user"></i> H  otBerry</h1>
+          <h1><i class="fa fa-user"></i> HotBerry</h1>
         </div>
       </div>
     </div>

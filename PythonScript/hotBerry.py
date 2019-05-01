@@ -17,15 +17,18 @@ while go:
     timed = str(intTimed)
 
     mycursor = db.cursor()
-    sql = "SELECT * FROM schedule WHERE schedule_start <= " + timed + " having schedule_end >= " + timed + " order by schedule_end;"
+    sql = "SELECT schedules.schedule_id FROM schedules INNER JOIN relation ON schedules.relation_id = relation.relation_id where schedules.schedule_start <= " + timed + " and schedules.schedule_end >= " + timed + " and relation.keycode_key = 'SMDB0Y';"
+    
     mycursor.execute(sql)
     result = mycursor.fetchall()
     
+    # <TempCode>
     print("")
     if result:
         print("ON")
     else:
         print("OFF")
+    # <TempCode/>
 
     count = count + 1
     print(count)
