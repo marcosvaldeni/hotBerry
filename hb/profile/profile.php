@@ -1,4 +1,5 @@
 <?php
+  // Import of components and companion pages
   include("../util/protectionLevel2.php");
   require_once("../util/connection.php");
   require_once("../util/init.php");
@@ -43,10 +44,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Call the header component -->
   <?php include("../util/header.php"); ?> 
 </head>
 <body>
-
+<!-- Call the navbar component -->
 <?php include("../util/nav.php"); ?> 
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -59,7 +61,7 @@
     </div>
   </header>
 
-  <!-- ACTIONS -->
+  <!-- Actoin -->
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
@@ -73,6 +75,7 @@
             <i class="fa fa-lock"></i> Change Password
           </a>
         </div>  
+        <!-- Call the boiler button component -->
         <?php include("../util/boilerBtn.php"); ?>
       </div>
     </div>
@@ -95,7 +98,7 @@
   </section>
   <?php } ?>
 
-  <!-- PROFILE EDIT -->
+  <!-- Profile editing -->
   <section id="profile">
     <div class="container">
       <div class="row">
@@ -126,6 +129,7 @@
     </div>
   </section>
 
+  <!-- Call the footer component -->
 	<?php include("../util/footer.php"); ?>  
 
 </body>

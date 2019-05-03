@@ -1,4 +1,5 @@
 <?php
+	// Import of components and companion pages
   include("../util/protectionLevel2.php");
 	require_once("../util/connection.php");
 	require_once("../util/functions.php");
@@ -45,10 +46,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+ 	<!-- Call the header component -->
 	<?php include("../util/header.php"); ?> 
 </head>
 <body>
 
+	<!-- Call the navbar component -->
 	<?php include("../util/nav.php"); ?> 
 	
 	<header id="main-header" class="py-2 bg-primary text-white">
@@ -61,7 +64,7 @@
 		</div>
 	</header>
 
-	<!-- ACTIONS -->
+	<!-- Action -->
 	<section id="action" class="py-4 mb-4 bg-light">
 		<div class="container">
 			<div class="row">
@@ -70,12 +73,13 @@
 						<i class="fa fa-arrow-left"></i> Back To Dashboard
 					</a>
 				</div>
+				<!-- Call the boiler button component -->
 				<?php include("../util/boilerBtn.php"); ?>
 			</div>
 		</div>
 	</section>
 
-	<!-- PASSWORD EDIT -->
+	<!-- Password edit -->
 	<?php if ($msg == "erro") {?>
   <section id="info">
     <div class="container">
@@ -173,8 +177,10 @@
 		</div>
 	</section>
 
+	<!-- Call boiler modal page -->
 	<?php include("../util/boilerModal.php"); ?>
 
+  <!-- Call the footer component -->
 	<?php include("../util/footer.php"); ?>  
 
 </body>

@@ -1,4 +1,5 @@
 <?php
+  // Import of components and additional pages
   include("../util/protectionLevel1.php");
   require_once("../util/connection.php");
   require_once("../util/init.php");
@@ -52,10 +53,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Call the header component -->
   <?php include("../util/header.php"); ?> 
 </head>
 <body>
-
+<!-- Call the navbar component -->
 <?php include("../util/nav.php"); ?> 
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -68,7 +70,6 @@
     </div>
   </header>
 
-  <!-- ACTIONS -->
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
@@ -77,12 +78,14 @@
             <i class="fa fa-arrow-left"></i> Back
           </a>
         </div>
-        </div>  
+        </div>
+        <!-- Call the boiler button component -->
         <?php include("../util/boilerBtn.php"); ?>
       </div>
     </div>
   </section>
 
+    <!--Message warning -->
   <?php if ($msg == "error") {?>
   <section id="info">
     <div class="container">
@@ -100,7 +103,7 @@
   </section>
   <?php } ?>
 
-  <!-- PROFILE EDIT -->
+  <!-- Profile editing -->
   <section id="profile">
     <div class="container">
       <div class="row">
@@ -127,6 +130,7 @@
     </div>
   </section>
 
+  <!-- Call the footer component -->
 	<?php include("../util/footer.php"); ?>  
 
 </body>

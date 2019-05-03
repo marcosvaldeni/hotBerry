@@ -1,7 +1,8 @@
  <?php
-include("../util/protectionLevel2.php");
-require_once("../util/connection.php");
-require_once("../util/functions.php");
+  // Import of components and additional pages
+  include("../util/protectionLevel2.php");
+  require_once("../util/connection.php");
+  require_once("../util/functions.php");
 
 if (isset($_POST['turnOn'])) {
   boilerDirect($_POST["ends"], $_SESSION["user_id"], $_SESSION["keycode"], $conn);
@@ -10,10 +11,11 @@ if (isset($_POST['turnOn'])) {
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Call the header component -->
   <?php include("../util/header.php"); ?> 
 </head>
 <body>
-
+  <!-- Call the navbar component -->
   <?php include("../util/nav.php"); ?> 
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -26,18 +28,17 @@ if (isset($_POST['turnOn'])) {
     </div>
   </header>
 
-  <!-- ACTIONS -->
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
         <div class="col-md-2 mr-auto"></div>
+          <!-- Call the boiler button component -->
           <?php include("../util/boilerBtn.php"); ?>
         </div>
     </div>
   </section>
 
-  <!-- HISTORIC TABLE -->
-  <section id="historic">
+  <section id="device">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -87,11 +88,9 @@ if (isset($_POST['turnOn'])) {
       </div>
     </div>
   </section>
-
+  <!-- Call boiler modal page -->
   <?php include("../util/boilerModal.php"); ?>
-
- 
-
+  <!-- Call the footer component -->
   <?php include("../util/footer.php"); ?> 
 
 </body>

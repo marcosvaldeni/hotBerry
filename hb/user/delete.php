@@ -41,10 +41,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Call the header component -->
   <?php include("../util/header.php"); ?> 
 </head>
 <body>
-
+  <!-- Call the navbar component -->
   <?php include("../util/nav.php"); ?>
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -57,19 +58,19 @@
     </div>
   </header>
 
-    <!-- ACTIONS -->
-    <section id="action" class="py-4 mb-4 bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-2 mr-auto">
-            <a href="add.php" class="btn btn-primary btn-block">
-              <i class="fa fa-plus"></i> Add User
-            </a>
-          </div>
-          <?php include("../util/boilerBtn.php"); ?>
+  <section id="action" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 mr-auto">
+          <a href="add.php" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i> Add User
+          </a>
         </div>
+        <!-- Call the boiler button component -->
+        <?php include("../util/boilerBtn.php"); ?>
       </div>
-    </section>
+    </div>
+  </section>
 
   <?php
     $sql = "SELECT user_name as name, user_email as email FROM users where user_id = :id;";
@@ -78,7 +79,7 @@
     $stmt -> execute();
     $row = $stmt->fetch();
   ?>
-  <!-- BOOK DELETE -->
+
   <section id="info">
     <div class="container">
       <div class="row">
@@ -126,10 +127,10 @@
     </div>
   </section>
 
+  <!-- Call boiler modal page -->
   <?php include("../util/boilerModal.php"); ?>
 
-
-
+  <!-- Call the footer component -->
   <?php include("../util/footer.php"); ?>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+// Import of components and additional pages
 require_once("hb/util/connection.php"); 
 require_once("hb/util/init.php");
 require_once("hb/util/functions.php");
@@ -13,6 +14,10 @@ if ($_POST) {
 
   $email = $_POST["email"];
   $pass = $_POST["pass"];
+  /*
+   * Before starting the sql query it checks if the
+   * fields email and password aren't empty
+   */
 
   if (!empty($email) || !empty($pass)) {
 
@@ -24,10 +29,18 @@ if ($_POST) {
     $row = $stmt->fetch();
 
     if (!empty($row)) {
-
+      /*
+       * Verifies if the password is the same criptographic one
+       * saved in the database. If it return positive the sessions are created.
+       */
       if(password_verify($pass, $row['user_pass'])){
         session_start();
-
+       /*
+        * If the email and password returns true, sessions
+        * are created and saved in memory for this user
+        * to avoid the system having to check the database for
+        * these information again while this user is still logged in
+        */
         $_SESSION["user_id"] = $row['user_id'];
         $_SESSION["user_name"] = $row['user_name'];
         $_SESSION["user_email"] = $row['user_email'];
@@ -35,6 +48,7 @@ if ($_POST) {
         $_SESSION["keycode"] = $row['keycode_key'];
         $_SESSION["selected"] = false;
 
+        // This checks how many devices the user has
         $sql = "SELECT count(*) as devices FROM relation
         INNER JOIN users ON relation.user_id = users.user_id
         WHERE users.user_id = :id;";
@@ -43,8 +57,13 @@ if ($_POST) {
         $stmt -> execute();
         $devices = $stmt->fetch();
 
+       /*
+        * After this check, a session is created to save this information,
+        * how many devices this user has
+        */
         $_SESSION["devices"] = $devices['devices'];
         
+        // Redirection to the dashborad
         header("Location: hb/");
 
       }else{
@@ -53,7 +72,7 @@ if ($_POST) {
     }
 
   } else {
-
+    // Error 9 if the email or password are wrong 
     $err = checkError(9);
   }
 }
@@ -85,7 +104,7 @@ if ($_POST) {
     </div>
   </header>
 
-  <!-- ACTIONS -->
+  <!-- Activates the modal page for registration -->
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
@@ -96,6 +115,10 @@ if ($_POST) {
     </div>
   </section>
 
+  <!--This is a generic error message that receives one of the
+  errors from function.php acoording to the number, currently from 1 to 9.
+  This way if we need to add an error message we just add it in function.php and
+  call here-->
   <?php if (isset($err)) {?>
 	<section id="info">
 		<div class="container">
@@ -143,7 +166,7 @@ if ($_POST) {
   </section>
   <br/><br/>
 
-  <!-- REGISTER MODAL -->
+  <!--Register modal -->
   <div class="modal fade" id="register" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -179,12 +202,5 @@ if ($_POST) {
   </div>
 
   <?php include("hb/util/footer.php"); ?> 
-  <!--
-  <script>
-    $(document).ready(function() {
-      $('#register').modal('show');
-    });
-  </script>
-  -->
 </body>
 </html>

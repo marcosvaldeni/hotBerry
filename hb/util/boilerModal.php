@@ -1,4 +1,6 @@
-<!-- BOILER MODAL -->
+<!-- BOILER MODAL PAGE
+Component modal page that is used on a number of different pages.
+-->
 <div class="modal" id="turnon">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -1,4 +1,5 @@
  <?php
+   // Import of components and additional pages
   include("../util/protectionLevel2.php");
   require_once("../util/connection.php");
   require_once("../util/init.php");
@@ -10,10 +11,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+   <!-- Call the header component -->
   <?php include("../util/header.php"); ?> 
 </head>
 <body>
 
+  <!-- Call the navbar component -->
   <?php include("../util/nav.php"); ?> 
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -37,7 +40,7 @@
     </div>
   </section>
 
-  <!-- HISTORIC TABLE -->
+  <!-- Historic table -->
   <section id="historic">
     <div class="container">
       <div class="row">
@@ -85,6 +88,7 @@
     </div>
   </section>
 
+  <!-- Call boiler modal page -->
   <?php include("../util/boilerModal.php"); ?>
 
   <?php
@@ -92,7 +96,7 @@
       echo '</br></br>';
     }
   ?>
-
+  <!-- Call the footer component -->
   <?php include("../util/footer.php"); ?>  
 
 </body>

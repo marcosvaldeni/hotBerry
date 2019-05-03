@@ -1,4 +1,5 @@
 <?php 
+  // Import of components and companion pages
   include("../util/protectionLevel1.php");
   include("../util/init.php");
   include("../util/connection.php");
@@ -14,6 +15,7 @@
   $stmt -> execute();
   $row = $stmt->fetch();
 
+  //Checks if the email field is empty
   if ($email == "") {
 
     header("Location: add.php?r=3");
@@ -35,6 +37,5 @@
 
     header("Location: add.php?r=2");
   }
-
 
 ?>

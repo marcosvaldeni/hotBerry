@@ -1,5 +1,5 @@
  <?php
-//  CONTROL AREA
+// Import of components and additional pages
 include("util/protectionLevel2.php");
 include("util/connection.php");
 include("util/functions.php");

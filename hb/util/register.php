@@ -1,6 +1,12 @@
 <?php
+  // Import of components and additional pages
   require_once("connection.php");
   require_once("init.php");
+
+/*
+ * New administrator registration 
+ * page where all fields are checked.
+ */
 
   $email = $_POST['email'];
   $pass = $_POST['pass'];
@@ -11,11 +17,13 @@
   $keycode_id;
   $err;
 
+  // Checks if the email is valid
   if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     $check = false;
     $err = 3;
   }
 
+  // Checks if email is already registered
   if ($check) {
     $sql = "SELECT checkEmailAndKey(:email, :codekey) as checking";
     $stmt = $conn -> prepare($sql);
@@ -31,16 +39,19 @@
     }
   }
 
+  // Checks if the password has at least 6 characters
   if ($check == true && strlen($_POST['pass']) < 6) {
     $check = false;
     $err = 5;
   }
 
+  // Checks if the password's field matches
   if ($check == true && $_POST['pass'] != $_POST['pass2']) {
     $check = false;
     $err = 6;
   }
 
+  // Create a new Admin
   if ($check) {
 
     $hashedPass = password_hash($pass,PASSWORD_DEFAULT);

@@ -1,5 +1,5 @@
- <!-- Schedule -->
  <?php
+ // Import of components and companion pages
   include("../util/protectionLevel2.php");
   require_once("../util/connection.php");
   require_once("../util/init.php");
@@ -12,10 +12,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Call the header component -->
   <?php include("../util/header.php"); ?> 
 </head>
 <body>
-
+  <!-- Call the navbar component -->
   <?php include("../util/nav.php"); ?> 
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -27,19 +28,20 @@
       </div>
     </div>
   </header>
-
-  <!-- ACTIONS -->
+  
+  <!-- Call the boiler button component -->
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
         <div class="col-md-2 mr-auto"></div>
+
         <?php include("../util/boilerBtn.php"); ?>
       </div>
     </div>
   </section>
 
-  <!-- HISTORIC TABLE -->
-  <section id="historic">
+  <!-- Schedule table -->
+  <section id="schedule">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -86,6 +88,7 @@
     </div>
   </section>
 
+  <!-- Call boiler modal page -->
   <?php include("../util/boilerModal.php"); ?>
   
   <?php
@@ -93,7 +96,7 @@
       echo '</br></br>';
     }
   ?>
-
+  <!-- Call the footer component -->
   <?php include("../util/footer.php"); ?>  
 
 </body>

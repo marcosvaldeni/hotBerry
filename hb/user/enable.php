@@ -1,4 +1,5 @@
 <?php
+  // Import of components and companion pages
   include("../util/protectionLevel1.php");
   include("../util/connection.php");
 

@@ -1,4 +1,5 @@
 <?php
+  // Import of components and companion pages
   include("../util/protectionLevel1.php");
 	require_once("../util/connection.php");
 	require_once("../util/init.php");
@@ -17,9 +18,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Call the header component -->
 	<?php include("../util/header.php"); ?>
 </head>
 <body>
+  <!-- Call the navbar component -->
 	<?php include("../util/nav.php"); ?>
 
   <header id="main-header" class="py-2 bg-primary text-white">
@@ -32,7 +35,6 @@
     </div>
   </header>
 
-  <!-- ACTIONS -->
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
@@ -41,12 +43,16 @@
             <i class="fa fa-arrow-left"></i> Back
           </a>
         </div>
+        <!-- Call the boiler button component -->
 				<?php include("../util/boilerBtn.php"); ?>
       </div>
     </div>
   </section>
 
-
+  <!--This is a generic error message that receives one of the
+  errors from function.php acoording to the number, currently from 1 to 9.
+  This way if we need to add an error message we just add it in function.php and
+  call here-->
 	<?php if (isset($err)) {?>
 	<section id="info">
 		<div class="container">
@@ -100,8 +106,10 @@
     </div>
   </section>
 
+  <!-- Call boiler modal page -->
 	<?php include("../util/boilerModal.php"); ?>
 
+  <!-- Call the footer component -->
 	<?php include("../util/footer.php"); ?>
 
 </body>

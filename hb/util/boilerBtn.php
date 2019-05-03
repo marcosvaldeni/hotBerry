@@ -1,3 +1,6 @@
+<!-- BUTTON 
+Component button that is used on a number of different pages.
+-->
 <div class="col-md-2">
   <?php
     $sql = "SELECT schedules.schedule_id FROM schedules
@@ -10,6 +13,7 @@
     $stmt -> execute();
     $row = $stmt->fetch();
   ?>
+  <!-- Button that indicates whether the boiler is on 'Green' or off 'Red'. -->
   <a href="#" class="btn btn-<?php if($row){echo 'success';} else {echo 'danger';} ?> btn-block" data-toggle="modal" data-target="#turnon">
     <i class="fa fa-toggle-<?php if($row){echo 'on';} else {echo 'off';} ?>"></i> <?php if($row){echo 'On';} else {echo 'Off';} ?>
   </a>

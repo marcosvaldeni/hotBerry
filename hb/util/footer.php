@@ -1,3 +1,6 @@
+<!-- FOOTER
+Component part of a page that is used on a number of different pages.
+-->
 <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
   <div class="conatiner">
     <div class="row">
