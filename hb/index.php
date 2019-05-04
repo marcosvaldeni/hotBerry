@@ -87,7 +87,7 @@ $devices = $stmt->fetchAll();
         <div class="row">
           <div class="col-md-2 mr-auto">
             <a href="schedule/add.php" class="btn btn-primary btn-block">
-              <i class="fa fa-plus"></i> Add
+              <i class="fa fa-plus"></i> Add Boiler Task
             </a>
           </div>
           <?php include("util/boilerBtn.php"); ?> 

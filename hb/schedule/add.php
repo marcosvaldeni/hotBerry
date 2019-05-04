@@ -3,7 +3,9 @@
   include("../util/protectionLevel2.php");
   require_once("../util/connection.php");
 	require_once("../util/init.php");
+	require_once("../util/functions.php");
 	
+	$err;
 	$msg = "";
 	$schedule;
 
@@ -28,14 +30,24 @@
 			$schedule = 'Scheduled for '.date("H:i:s", $row['schedule_start']).' to '.date("H:i:s", $row['schedule_end']).' on '.date(" l jS F Y", $row['schedule_end']);
 		} else {
 
-			$sql = "CALL createSchedule(?, ?, ?, ?);";
-			$sth = $conn -> prepare($sql);
-			$sth -> bindParam(1, $user_id, PDO::PARAM_INT);
-			$sth -> bindParam(2, $keycode, PDO::PARAM_STR);
-			$sth -> bindParam(3, $starts, PDO::PARAM_INT);
-			$sth -> bindParam(4, $ends, PDO::PARAM_INT);
+			if($ends <= time()){
 
-			$sth -> execute();
+				$err =  checkError(11);
+
+			} else {
+				$sql = "CALL createSchedule(?, ?, ?, ?);";
+				$sth = $conn -> prepare($sql);
+				$sth -> bindParam(1, $user_id, PDO::PARAM_INT);
+				$sth -> bindParam(2, $keycode, PDO::PARAM_STR);
+				$sth -> bindParam(3, $starts, PDO::PARAM_INT);
+				$sth -> bindParam(4, $ends, PDO::PARAM_INT);
+	
+				$sth -> execute();
+
+				$err =  checkError(2);
+			}
+
+
 		}
 	}
 ?>
@@ -85,6 +97,23 @@
 									<span>&times;</span>
 							</button>
 							<strong><?php echo $schedule; ?></strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<?php } ?>
+
+	<?php if (isset($err)) {?>
+	<section id="info">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 m-auto">
+					<div class="alert alert-<?= $err[0]?> alert-dismissible fade show">
+							<button class="close" data-dismiss="alert" type="button">
+									<span>&times;</span>
+							</button>
+							<strong><?= $err[1]?></strong>
 					</div>
 				</div>
 			</div>

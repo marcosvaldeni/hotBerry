@@ -33,7 +33,11 @@
   <section id="action" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
-        <div class="col-md-2 mr-auto"></div>
+      <div class="col-md-2 mr-auto">
+            <a href="schedule/add.php" class="btn btn-primary btn-block">
+              <i class="fa fa-plus"></i> Add Boiler Task
+            </a>
+          </div>
 
         <?php include("../util/boilerBtn.php"); ?>
       </div>

@@ -52,6 +52,9 @@
     } elseif ($int == 10) {
       $err[0] = "danger";
       $err[1] = "Your account has been deleted, please contact your admin!";
+    } elseif ($int == 11) {
+      $err[0] = "danger";
+      $err[1] = "Invalid time!";
     } else {
       $err[0] = "warning";
       $err[1] = "Error 500";
