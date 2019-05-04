@@ -5,17 +5,18 @@
   * as a security measure as it prevents SQL injection
   */
 
-  /*
+  
   $HOST = 'localhost';
   $USER = 'root';
   $PASS = '';
   $DB = 'hotberry';
-  */
   
+  /*
   $HOST = '160.153.128.24';
   $USER = 'admin_kfdsona';
   $PASS = 'Cjn4&qpuKfmi';
   $DB = 'hotberry';
+  */
 
 try{
 	// Creating the connection and saving in the variable $conn

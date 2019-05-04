@@ -14,13 +14,23 @@ if (isset($_POST['selected'])) {
   $_SESSION["keycode"] = $_POST['keycode'];
 }
 
-$dataPoints = array( 
-	array("y" => 7.00,"label" => "March" ),
-	array("y" => 12,"label" => "April" ),
-	array("y" => 28,"label" => "May" ),
-	array("y" => 18,"label" => "June" ),
-	array("y" => 41,"label" => "July" )
-);
+$sql = "SELECT users.user_email AS email,users.user_name AS name, 
+sum(schedule_end-schedule_start) as timeOn FROM schedules
+INNER JOIN  relation ON schedules.relation_id = relation.relation_id
+INNER JOIN  users ON users.user_id = relation.user_id  
+WHERE relation.keycode_key = :keycode  group by users.user_id;";
+$stmt = $conn -> prepare($sql);
+$stmt -> bindValue(':keycode',  $_SESSION["keycode"], PDO::PARAM_STR);
+$stmt -> execute();
+$result = $stmt->fetchAll();
+
+$dataPoints;
+for ($i=0; $i < sizeof($result); $i++) { 
+  $time = ($result[$i]['timeOn']/60);
+  $hours = round($time / 60, 2);
+  $dataPoints[$i] = array("y" => $hours, "label" => $result[$i]['email'] );
+  
+}
 
 $sql = "SELECT keycode_key as keycode FROM relation WHERE user_id = :id;";
 $stmt = $conn -> prepare($sql);
@@ -39,12 +49,12 @@ $devices = $stmt->fetchAll();
         animationEnabled: true,
         axisY: {
           title: "",
-          prefix: "$",
-          suffix:  "k"
+          prefix: "",
+          suffix:  " Hours"
         },
         data: [{
           type: "bar",
-          yValueFormatString: "€#,##0",
+          yValueFormatString: "#.##",
           indexLabel: "{y}",
           indexLabelPlacement: "inside",
           indexLabelFontWeight: "bolder",

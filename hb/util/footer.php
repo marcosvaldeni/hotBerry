@@ -5,7 +5,7 @@ Component part of a page that is used on a number of different pages.
   <div class="conatiner">
     <div class="row">
       <div class="col">
-        <p class="lead text-center">Copyright &copy; 2019 HotBerry</p>
+        <p class="lead text-center">Copyright &copy; 2019 hotBerry</p>
       </div>
     </div>
   </div>

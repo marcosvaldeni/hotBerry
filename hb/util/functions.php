@@ -48,7 +48,10 @@
       $err[1] = "Congratulations You're Registered!";
     } elseif ($int == 9) {
       $err[0] = "danger";
-      $err[1] = "Invalid username or password.";
+      $err[1] = "Invalid username or password.";    
+    } elseif ($int == 10) {
+      $err[0] = "danger";
+      $err[1] = "Your account has been deleted, please contact your admin!";
     } else {
       $err[0] = "warning";
       $err[1] = "Error 500";

@@ -144,12 +144,13 @@ END//
 DELIMITER ;
 
 /* ################################## <SIMULATION DATA> #################################### */
-CALL createAdmin("8AF11A","caroldanvers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
+CALL createAdmin("8AF11A","caroldanvers@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
 CALL createUser("davidbonner@email.com", "$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 CALL createUser("hankpym@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 CALL createUser("emmafrost@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 
-CALL createAdmin("SMDB0Y","stevenrogers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
+CALL createAdmin("SMDB0Y","stevenrogers@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
+CALL createAdmin("SMDB0Y","marcosvaldeni@gemail.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
 INSERT INTO relation (relation_level, keycode_key, user_id) VALUES (1, "5JCOO4",5);
 CALL createUser("annamarie@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
 CALL createUser("mollyfitzgerald@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
@@ -227,13 +228,11 @@ INNER JOIN users ON relation.user_id = users.user_id
 WHERE users.user_id = 5;
 */
 
-# <temp>
-SELECT keycode_comment AS name, keycodes.keycode_key AS keycode FROM keycodes 
-INNER JOIN relation ON relation.keycode_key = keycodes.keycode_key
-WHERE user_id = 5 and keycodes.keycode_key = 'SMDB0Y';
-# </temp>
+
+
+select * from users;
 
 # <temp>
-SELECT * from users;
+#select FROM_UNIXTIME((schedule_end-schedule_start), "%H:%i") from schedules;
 
 # </temp>

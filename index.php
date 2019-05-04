@@ -11,7 +11,6 @@ if(isset($_GET['r'])) {
 }
 
 if ($_POST) {
-
   $email = $_POST["email"];
   $pass = $_POST["pass"];
   /*
@@ -21,7 +20,7 @@ if ($_POST) {
 
   if (!empty($email) || !empty($pass)) {
 
-    $sql = "SELECT users.user_id, users.user_name, users.user_email, users.user_pass, relation.relation_level as user_level, relation.keycode_key FROM users 
+    $sql = "SELECT users.user_id, users.user_name, users.user_email, users.user_pass, relation.relation_level as user_level, user_deleted , relation.keycode_key FROM users 
             INNER JOIN  relation ON relation.user_id = users.user_id WHERE users.user_email = :email LIMIT 1;";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':email', $email, PDO::PARAM_STR);
@@ -29,46 +28,59 @@ if ($_POST) {
     $row = $stmt->fetch();
 
     if (!empty($row)) {
-      /*
-       * Verifies if the password is the same criptographic one
-       * saved in the database. If it return positive the sessions are created.
-       */
-      if(password_verify($pass, $row['user_pass'])){
-        session_start();
-       /*
-        * If the email and password returns true, sessions
-        * are created and saved in memory for this user
-        * to avoid the system having to check the database for
-        * these information again while this user is still logged in
+
+      if ($row['user_deleted'] == 0) {
+
+        /*
+        * Verifies if the password is the same criptographic one
+        * saved in the database. If it return positive the sessions are created.
         */
-        $_SESSION["user_id"] = $row['user_id'];
-        $_SESSION["user_name"] = $row['user_name'];
-        $_SESSION["user_email"] = $row['user_email'];
-        $_SESSION["user_level"] = $row['user_level'];
-        $_SESSION["keycode"] = $row['keycode_key'];
-        $_SESSION["selected"] = false;
+        if(password_verify($pass, $row['user_pass'])){
+          session_start();
 
-        // This checks how many devices the user has
-        $sql = "SELECT count(*) as devices FROM relation
-        INNER JOIN users ON relation.user_id = users.user_id
-        WHERE users.user_id = :id;";
-        $stmt = $conn -> prepare($sql);
-        $stmt -> bindValue(':id', $_SESSION["user_id"], PDO::PARAM_INT);
-        $stmt -> execute();
-        $devices = $stmt->fetch();
+        /*
+          * If the email and password returns true, sessions
+          * are created and saved in memory for this user
+          * to avoid the system having to check the database for
+          * these information again while this user is still logged in
+          */
+          $_SESSION["user_id"] = $row['user_id'];
+          $_SESSION["user_name"] = $row['user_name'];
+          $_SESSION["user_email"] = $row['user_email'];
+          $_SESSION["user_level"] = $row['user_level'];
+          $_SESSION["keycode"] = $row['keycode_key'];
+          $_SESSION["selected"] = false;
 
-       /*
-        * After this check, a session is created to save this information,
-        * how many devices this user has
-        */
-        $_SESSION["devices"] = $devices['devices'];
-        
-        // Redirection to the dashborad
-        header("Location: hb/");
+          // This checks how many devices the user has
+          $sql = "SELECT count(*) as devices FROM relation
+          INNER JOIN users ON relation.user_id = users.user_id
+          WHERE users.user_id = :id;";
+          $stmt = $conn -> prepare($sql);
+          $stmt -> bindValue(':id', $_SESSION["user_id"], PDO::PARAM_INT);
+          $stmt -> execute();
+          $devices = $stmt->fetch();
 
-      }else{
-        $err = checkError(9);
+        /*
+          * After this check, a session is created to save this information,
+          * how many devices this user has
+          */
+          $_SESSION["devices"] = $devices['devices'];
+          
+          // Redirection to the dashborad
+          header("Location: hb/");
+
+        }else{
+          $err = checkError(9);
+        }
+
+      } else {
+        // Error 9 user deleted
+        $err = checkError(10);
       }
+
+    } else {
+      // Error 9 if the email or password are wrong 
+      $err = checkError(9);
     }
 
   } else {
