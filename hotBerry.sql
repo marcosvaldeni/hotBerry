@@ -103,6 +103,7 @@ BEGIN
 END //
 DELIMITER ;
 
+CALL createSchedule(15, '00ZVXV', 1553934289, ‭1553936989‬);
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS createSchedule//
@@ -144,12 +145,12 @@ END//
 DELIMITER ;
 
 /* ################################## <SIMULATION DATA> #################################### */
-CALL createAdmin("8AF11A","caroldanvers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
+CALL createAdmin("8AF11A","caroldanvers@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
 CALL createUser("davidbonner@email.com", "$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 CALL createUser("hankpym@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 CALL createUser("emmafrost@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", "8AF11A");
 
-CALL createAdmin("SMDB0Y","stevenrogers@email.comm","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
+CALL createAdmin("SMDB0Y","stevenrogers@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa", @resutl);
 INSERT INTO relation (relation_level, keycode_key, user_id) VALUES (1, "5JCOO4",5);
 CALL createUser("annamarie@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
 CALL createUser("mollyfitzgerald@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/epsID4/eDrkyJQUU5pJjT8NIAa","5JCOO4");
@@ -165,8 +166,92 @@ CALL createUser("cassiesandsmark@email.com","$2y$10$Gr15GhasjDto5Nt8Bz5N3e5dhN/e
                
 /* ################################## </SIMULATION DATA> #################################### */
 
+/*
+# Select to show the users, giving the option to the admin add one of them #########
+SELECT relation.user_id, keycode_key, user_email FROM users 
+INNER JOIN  relation ON relation.user_id = users.user_id
+WHERE keycode_key = "00ZVXV" and users.user_id != 1;
+#######################################
 
-# <temp>
-SELECT * from keycodes;
+# Selecto to login a user on the system #############
+SELECT users.user_id, users.user_name, users.user_email, relation.relation_level as user_level FROM users 
+INNER JOIN  relation ON relation.user_id = users.user_id where users.user_email = "marcosvaldeni@gmail.com";
+#######################################
 
-# </temp>
+# Check if boiler is ON ############
+SELECT * FROM schedules 
+inner join relation on relation.user_id = schedules.user_id
+where schedule_start <= (SELECT UNIX_TIMESTAMP(NOW())) 
+and schedule_end >= (SELECT UNIX_TIMESTAMP(NOW())) 
+having relation.keycode_key = "00ZVXV";
+#######################################
+
+# Select userd on Historic page ################ changed, please check the php page
+SELECT relation.relation_id, users.user_id, schedules.schedule_id, users.user_name AS name, users.user_email AS email, schedule_start, schedule_end  FROM schedules
+INNER JOIN relation ON schedules.relation_id = relation.relation_id
+INNER JOIN users ON relation.user_id = users.user_id
+WHERE relation.keycode_key = "8AF11A" ORDER BY schedules.schedule_end;
+#################################
+
+# Select userd on User page ################ 
+SELECT users.user_name AS name, 
+users.user_email AS email, 
+relation.relation_level AS level, 
+users.user_status AS status, 
+users.user_deleted AS deleted FROM users
+INNER JOIN relation ON users.user_id = relation.user_id
+WHERE relation.keycode_key = "8AF11A";
+#################################
+
+# select planing programming for today ################ 
+SELECT users.user_email AS email,users.user_name AS name, schedules.schedule_start AS start, schedules.schedule_end AS end FROM schedules
+INNER JOIN  relation ON schedules.relation_id = relation.relation_id
+INNER JOIN  users ON users.user_id = relation.user_id  
+WHERE FROM_UNIXTIME(schedule_start, "%d/%m/%Y") = FROM_UNIXTIME((SELECT UNIX_TIMESTAMP(NOW())), "%d/%m/%Y")
+AND relation.keycode_key = "00ZVXV" 
+ORDER BY schedule_end;
+#################################
+
+SELECT UNIX_TIMESTAMP(NOW());
+
+SELECT FROM_UNIXTIME((SELECT UNIX_TIMESTAMP(NOW())), "%d/%m/%Y %H:%i") as MyTime;
+
+
+SELECT schedules.schedule_id FROM schedules
+INNER JOIN relation ON schedules.relation_id = relation.relation_id
+where schedules.schedule_start <= (SELECT UNIX_TIMESTAMP(NOW()-3600)) and schedules.schedule_end >= (SELECT UNIX_TIMESTAMP(NOW()-3600))
+and relation.keycode_key = "00ZVXV";
+
+
+SELECT count(*) FROM relation
+INNER JOIN users ON relation.user_id = users.user_id
+WHERE users.user_id = 5;
+*/
+/*
+SELECT FROM_UNIXTIME((1552225500), "%d/%m/%Y %H:%i") as MyTime;
+
+INSERT INTO schedules (schedule_start, schedule_end, relation_id) VALUES
+(1553934289, 1553936989, ralationId);
+
+
+#15 'cassiesandsmark@email.com'
+CALL createSchedule(15, '00ZVXV', 1553934289, ‭1553936989‬);
+CALL createSchedule(15, '00ZVXV', 1553940000, ‭1553941800‬);
+#14 'guygardner@email.com'
+CALL createSchedule(14, '00ZVXV', 1556616600, ‭1556617500‬);
+CALL createSchedule(14, '00ZVXV', 1556628300, ‭1556631900‬);
+CALL createSchedule(14, '00ZVXV', 1556635500, ‭1556639100‬);
+CALL createSchedule(14, '00ZVXV', 1556646300, ‭1556647200‬);
+#13 'samanthaparrington@email.com'
+CALL createSchedule(13, '00ZVXV', 1552201200, ‭1552202100‬);
+CALL createSchedule(13, '00ZVXV', 1552216500, ‭1552218300‬);
+CALL createSchedule(13, '00ZVXV', 1552225500, ‭1552229100‬);
+#9 'joshuasanders@email.comm'
+CALL createSchedule(14, '00ZVXV', 1552272300, 1552275000‭‬);
+CALL createSchedule(14, '00ZVXV', 1552282200, ‭‬1552283100);
+CALL createSchedule(14, '00ZVXV', 1552304700, ‭‬1552262400);
+CALL createSchedule(14, '00ZVXV', 1552309200, 1552311000‭‬);
+
+
+select * from users
+INNER JOIN  relation ON users.user_id = relation.user_id;

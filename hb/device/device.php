@@ -1,8 +1,8 @@
 <?php
   // Import of components and additional pages
   include("../util/protectionLevel1.php");
-  require_once("../util/connection.php");
-  require_once("../util/init.php");
+  include("../util/connection.php");
+  include("../util/init.php");
 
   $msg = "";
  

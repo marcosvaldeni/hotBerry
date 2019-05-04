@@ -55,31 +55,18 @@
     } elseif ($int == 11) {
       $err[0] = "danger";
       $err[1] = "Invalid time!";
+    } elseif ($int == 12) {
+      $err[0] = "success";
+      $err[1] = "Successful logout!";
+    } elseif ($int == 13) {
+      $err[0] = "success";
+      $err[1] = "Boiler switched off successfully!";
     } else {
       $err[0] = "warning";
       $err[1] = "Error 500";
     }
     
     return $err;
-
-  }
-
-  // This function sends a message to the user's email
-  // acoording to the system's needs
-  function emailUser($email, $message) {
-    
-    $from = "system@hotberry.co";
-    $to = $_POST["eMail"];
-    $generatePass = md5(date("y-m-d h:i:s"));
-    $code = substr($generatePass,0,7);
-    $pass = md5($code);
-    $subject = "Register on Hotberry.co";
-    $message = "
-        Thank you for registering at hotBerry
-        Here is the access data
-        Password: $pass";
-    $headers = "From:". $from;        
-    mail($to, $subject, $message, $headers);
 
   }
 

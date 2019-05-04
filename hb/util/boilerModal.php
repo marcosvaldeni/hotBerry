@@ -30,7 +30,7 @@ Component modal page that is used on a number of different pages.
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-danger" type="submit">Cancel</button>
+            <a class="btn btn-danger" href=<?php echo $BASE."/hb/util/cancel.php"; ?>>Cancel</a>
           </div>
         </form>
         <?php } else { ?>

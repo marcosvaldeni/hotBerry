@@ -1,8 +1,9 @@
  <?php
    // Import of components and additional pages
   include("../util/protectionLevel2.php");
-  require_once("../util/connection.php");
-  require_once("../util/init.php");
+  include("../util/connection.php");
+  include("../util/init.php");
+  include("../util/functions.php");
 
 	if (isset($_POST['turnOn'])) {
     boilerDirect($_POST["ends"], $_SESSION["user_id"], $_SESSION["keycode"], $conn);

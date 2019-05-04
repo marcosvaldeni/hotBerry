@@ -4,6 +4,11 @@ include("util/protectionLevel2.php");
 include("util/connection.php");
 include("util/functions.php");
 
+$err;
+
+if(isset($_GET['r'])) {
+  $err = checkError($_GET['r']);
+}
 
 if (isset($_POST['turnOn'])) {
   boilerDirect($_POST["ends"], $_SESSION["user_id"], $_SESSION["keycode"], $conn);
@@ -54,7 +59,7 @@ $devices = $stmt->fetchAll();
         },
         data: [{
           type: "bar",
-          yValueFormatString: "#.##",
+          yValueFormatString: "0#.##",
           indexLabel: "{y}",
           indexLabelPlacement: "inside",
           indexLabelFontWeight: "bolder",
@@ -71,29 +76,50 @@ $devices = $stmt->fetchAll();
 
   <?php include("util/nav.php"); ?>  
 
-    <header id="main-header" class="py-2 bg-primary text-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h1><i class="fa fa-gear"></i> Dashboard</h1>
-          </div>
+  <header id="main-header" class="py-2 bg-primary text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1><i class="fa fa-gear"></i> Dashboard</h1>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <!-- ACTIONS -->
-    <section id="action" class="py-4 mb-4 bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-2 mr-auto">
-            <a href="schedule/add.php" class="btn btn-primary btn-block">
-              <i class="fa fa-plus"></i> Add Boiler Task
-            </a>
-          </div>
-          <?php include("util/boilerBtn.php"); ?> 
+  <!-- ACTIONS -->
+  <section id="action" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 mr-auto">
+          <a href="schedule/add.php" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i> Add Boiler Task
+          </a>
         </div>
+        <?php include("util/boilerBtn.php"); ?> 
       </div>
-    </section>
+    </div>
+  </section>
+
+  <!--This is a generic error message that receives one of the
+  errors from function.php acoording to the number, currently from 1 to 9.
+  This way if we need to add an error message we just add it in function.php and
+  call here-->
+  <?php if (isset($err)) {?>
+	<section id="info">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 m-auto">
+					<div class="alert alert-<?= $err[0]?> alert-dismissible fade show">
+							<button class="close" data-dismiss="alert" type="button">
+									<span>&times;</span>
+							</button>
+							<strong><?= $err[1]?></strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<?php } ?>
 
   <!-- POSTS -->
   <section id="posts">
@@ -102,7 +128,7 @@ $devices = $stmt->fetchAll();
         <div class="col-md-7">
           <div class="card">
             <div class="card-header">
-              <h4>Graphic</h4>
+              <h4>Boiler System Usage</h4>
             </div>
             <div id="chartContainer" style="height: 370px; width: 100%;"></div>
           </div>

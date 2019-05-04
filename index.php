@@ -1,8 +1,8 @@
 <?php
 // Import of components and additional pages
-require_once("hb/util/connection.php"); 
-require_once("hb/util/init.php");
-require_once("hb/util/functions.php");
+include("hb/util/connection.php"); 
+include("hb/util/init.php");
+include("hb/util/functions.php");
 
 $err;
 
