@@ -165,7 +165,7 @@ if ($_POST) {
                 <div class="form-group">
                   <br/>
                   <input type="password" name="pass" class="form-control" placeholder="Password">
-                  <small class="form-text text-muted"><a href="">Forgot Password</a></small>
+                  <small class="form-text text-muted"><a href="#" data-toggle="modal" data-target="#forgotpassword">Forgot Password</a></small>
                 </div>
                 <br/>
                 <input type="submit" class="btn btn-primary btn-block" value="Login">
@@ -207,6 +207,29 @@ if ($_POST) {
         </div>
         <div class="modal-footer">
           <button class="btn btn-primary" type="submit">Register</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORGOT MODAL -->
+  <div class="modal fade" id="forgotpassword" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Forgot Password</h5>
+          <button class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="modal-form" action="hb/util/forgotPass.php" method="POST">
+          <div class="form-group">
+              <label for="email">eMail:</label>
+              <input type="text" placeholder="eMail" class="form-control" name="email">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit" name="forgotpassword">Remember</button>
         </div>
         </form>
       </div>

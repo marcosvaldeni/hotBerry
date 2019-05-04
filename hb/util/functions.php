@@ -63,17 +63,20 @@
 
   // This function sends a message to the user's email
   // acoording to the system's needs
-  function emailUser($email, $pass) {
+  function emailUser($email, $message) {
     
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-    $from = "marcosluvas@hotmail.com";
-    $to = "marcoslucas@hotmail.com";
-    $subject = "Verificando o correio do PHP";
-    $message = "Email: $email<br />Senha: $pass<br />code: $code";
-    $headers = "De:". $from;
+    $from = "system@hotberry.co";
+    $to = $_POST["eMail"];
+    $generatePass = md5(date("y-m-d h:i:s"));
+    $code = substr($generatePass,0,7);
+    $pass = md5($code);
+    $subject = "Register on Hotberry.co";
+    $message = "
+        Thank you for registering at hotBerry
+        Here is the access data
+        Password: $pass";
+    $headers = "From:". $from;        
     mail($to, $subject, $message, $headers);
-    echo "A mensagem de e-mail foi enviada.";
 
   }
 

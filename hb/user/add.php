@@ -85,15 +85,6 @@
                   <input type="text" class="form-control" name="user_email">
                 </div>
 								<div class="form-group">
-									<label for="email">Level:</label>
-										<div class="input-group">
-											<select name="user_level" class="form-control">
-											<option value="2">User</option>
-											<option value="1">Admin</option>
-											</select>
-										</div>
-								</div>
-								<div class="form-group">
                   <br/>
 									<button class="btn btn-primary" type="submit" <?php if ($_SESSION["user_level"] == 2) {echo "value='2' name='user_level'";} ?>>Save</button>
 									<a href="index.php" class="btn btn-secondary">Cancel</a>
@@ -105,6 +96,9 @@
       </div>
     </div>
   </section>
+
+  <br>
+  <br>
 
   <!-- Call boiler modal page -->
 	<?php include("../util/boilerModal.php"); ?>

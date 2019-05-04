@@ -1,6 +1,7 @@
 <?php
   // Defining the correct time zone
   date_default_timezone_set("Europe/Dublin");
-   // This is the root address of the application
+  // This is the root address of the application
   $BASE = 'http://localhost/hotberry';
+  //$BASE = 'http://hotberries.co';
 ?>
